@@ -39,9 +39,7 @@
     
     self.player.URL = [NSURL URLWithString:URLString];
     
-    self.player.playProgressBlock = ^(float time, float duration, float progress) {
-        
-        NSLog(@"%f", progress);
+    self.player.playProgressBlock = ^(KSPlayer *player, float time, float duration, float progress) {
         
     };
     

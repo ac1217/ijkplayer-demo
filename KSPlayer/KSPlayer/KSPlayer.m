@@ -28,6 +28,19 @@
 
 @implementation KSPlayer
 
++ (void)initialize
+{
+    
+#ifdef DEBUG
+    [IJKFFMoviePlayerController setLogReport:YES];
+    [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_DEBUG];
+#else
+    [IJKFFMoviePlayerController setLogReport:NO];
+    [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_INFO];
+#endif
+    
+}
+
 - (void)dealloc
 {
     [self freePlayer];
@@ -47,6 +60,12 @@
 {
     
     IJKFFOptions *options = [IJKFFOptions optionsByDefault];
+    [options setPlayerOptionIntValue:5 forKey:@"framedrop"];
+//    [options setPlayerOptionIntValue:1 forKey:@"videotoolbox"];
+    //解码参数，画面更清晰
+    [options setCodecOptionIntValue:IJK_AVDISCARD_DEFAULT forKey:@"skip_loop_filter"];
+    
+    
     IJKFFMoviePlayerController *player = [[IJKFFMoviePlayerController alloc] initWithContentURL:self.URL withOptions:options];
     player.shouldAutoplay = self.autoPlay;
     player.scalingMode = IJKMPMovieScalingModeAspectFit;
@@ -84,6 +103,16 @@
         
         [self createPlayer];
     }
+    
+}
+
+- (void)seekToTime:(NSTimeInterval)time
+{
+    
+    
+    
+    self.player.currentPlaybackTime = time;
+    
     
 }
 

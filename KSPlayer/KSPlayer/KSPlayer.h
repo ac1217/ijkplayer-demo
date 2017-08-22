@@ -33,8 +33,11 @@ typedef enum : NSUInteger {
 
 @property (nonatomic,strong) NSURL *URL;
 
+
 @property (nonatomic,assign) BOOL autoPlay;
 @property (nonatomic,assign) NSInteger loopCount;
+
+- (void)seekToTime:(NSTimeInterval)time;
 
 // 播放进度回调
 @property (nonatomic,copy) void(^playProgressBlock)(KSPlayer *player, float time, float duration, float progress);
