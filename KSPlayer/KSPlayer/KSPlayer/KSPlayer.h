@@ -37,6 +37,8 @@ typedef enum : NSUInteger {
 @property (nonatomic,assign) BOOL autoPlay;
 @property (nonatomic,assign) NSInteger loopCount;
 
+@property (nonatomic,assign) float rate;
+
 - (void)seekToTime:(NSTimeInterval)time;
 
 // 播放进度回调
@@ -45,5 +47,9 @@ typedef enum : NSUInteger {
 @property (nonatomic,copy) void(^playStatusBlock)(KSPlayer *player,KSPlayerPlayStatus status);
 
 @property (nonatomic,copy) void(^loadStatusBlock)(KSPlayer *player,KSPlayerLoadStatus status);
+
+- (void)pause;
+- (void)stop;
+- (void)play;
 
 @end

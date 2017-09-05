@@ -9,6 +9,7 @@
 #import "KSPlayer.h"
 
 #import <IJKMediaFramework/IJKMediaPlayer.h>
+//#import <KSYMediaPlayer/KSYMediaPlayer.h>
 
 @interface KSPlayer (){
     
@@ -36,17 +37,17 @@
     [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_DEBUG];
 #else
     [IJKFFMoviePlayerController setLogReport:NO];
-    [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_INFO];
+    [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_DEFAULT];
 #endif
     
 }
 
 - (void)dealloc
 {
-    [self freePlayer];
+    [self destoryPlayer];
 }
 
-- (void)freePlayer
+- (void)destoryPlayer
 {
     
     [self removePlayProgressTimer];
@@ -97,7 +98,7 @@
 {
     _URL = URL;
     
-    [self freePlayer];
+    [self destoryPlayer];
     
     if (URL) {
         
@@ -106,13 +107,45 @@
     
 }
 
+- (void)setRate:(float)rate
+{
+    self.player.playbackRate = rate;
+}
+
+- (float)rate
+{
+    return self.player.playbackRate;
+}
+
+- (void)setVolume:(float)volume
+{
+    self.player.playbackVolume = volume;
+}
+
+- (float)volume
+{
+    return self.player.playbackVolume;
+}
+
+- (void)play
+{
+    [self.player play];
+}
+
+- (void)pause
+{
+    [self.player pause];
+}
+
+- (void)stop
+{
+    [self.player stop];
+}
+
 - (void)seekToTime:(NSTimeInterval)time
 {
     
-    
-    
     self.player.currentPlaybackTime = time;
-    
     
 }
 

@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		07E13E2C1F4C708900F35CFF /* IJKMediaFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 07E13E2B1F4C708900F35CFF /* IJKMediaFramework.framework */; };
 		884370701F4C1139001200A7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8843706F1F4C1139001200A7 /* main.m */; };
 		884370731F4C1139001200A7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 884370721F4C1139001200A7 /* AppDelegate.m */; };
 		884370761F4C1139001200A7 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 884370751F4C1139001200A7 /* ViewController.m */; };
@@ -29,10 +28,12 @@
 		884370B71F4C11E9001200A7 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 884370B61F4C11E9001200A7 /* QuartzCore.framework */; };
 		884370B91F4C11EE001200A7 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 884370B81F4C11EE001200A7 /* UIKit.framework */; };
 		884370BB1F4C11F4001200A7 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 884370BA1F4C11F4001200A7 /* VideoToolbox.framework */; };
-		888DBF6E1F4C21F000300EE9 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 888DBF6D1F4C21F000300EE9 /* Accelerate.framework */; };
 		888DBF741F4C29B800300EE9 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 888DBF731F4C29B800300EE9 /* libc++.tbd */; };
-		888DBF781F4C309600300EE9 /* KSPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 888DBF771F4C309600300EE9 /* KSPlayer.m */; };
-		888DBF7B1F4C329C00300EE9 /* KSPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 888DBF7A1F4C329C00300EE9 /* KSPlayerView.m */; };
+		888DBFA11F4D173800300EE9 /* KSPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 888DBF9E1F4D173800300EE9 /* KSPlayer.m */; };
+		888DBFA21F4D173800300EE9 /* KSPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 888DBFA01F4D173800300EE9 /* KSPlayerView.m */; };
+		888DBFA61F4D197200300EE9 /* login_video.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 888DBFA51F4D197200300EE9 /* login_video.mp4 */; };
+		888DBFBE1F4D290900300EE9 /* libstdc++.6.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 888DBFBD1F4D290900300EE9 /* libstdc++.6.tbd */; };
+		88AAC06A1F4D87C100F85F6F /* IJKMediaFramework.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 88AAC0691F4D87C100F85F6F /* IJKMediaFramework.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,7 +54,6 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		07E13E2B1F4C708900F35CFF /* IJKMediaFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = IJKMediaFramework.framework; sourceTree = "<group>"; };
 		8843706B1F4C1138001200A7 /* KSPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KSPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8843706F1F4C1139001200A7 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		884370711F4C1139001200A7 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -85,10 +85,13 @@
 		884370BA1F4C11F4001200A7 /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
 		888DBF6D1F4C21F000300EE9 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		888DBF731F4C29B800300EE9 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
-		888DBF761F4C309600300EE9 /* KSPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSPlayer.h; sourceTree = "<group>"; };
-		888DBF771F4C309600300EE9 /* KSPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSPlayer.m; sourceTree = "<group>"; };
-		888DBF791F4C329C00300EE9 /* KSPlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSPlayerView.h; sourceTree = "<group>"; };
-		888DBF7A1F4C329C00300EE9 /* KSPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSPlayerView.m; sourceTree = "<group>"; };
+		888DBF9D1F4D173800300EE9 /* KSPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSPlayer.h; sourceTree = "<group>"; };
+		888DBF9E1F4D173800300EE9 /* KSPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSPlayer.m; sourceTree = "<group>"; };
+		888DBF9F1F4D173800300EE9 /* KSPlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSPlayerView.h; sourceTree = "<group>"; };
+		888DBFA01F4D173800300EE9 /* KSPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSPlayerView.m; sourceTree = "<group>"; };
+		888DBFA51F4D197200300EE9 /* login_video.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = login_video.mp4; sourceTree = "<group>"; };
+		888DBFBD1F4D290900300EE9 /* libstdc++.6.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.tbd"; path = "usr/lib/libstdc++.6.tbd"; sourceTree = SDKROOT; };
+		88AAC0691F4D87C100F85F6F /* IJKMediaFramework.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = IJKMediaFramework.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,10 +99,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				888DBFBE1F4D290900300EE9 /* libstdc++.6.tbd in Frameworks */,
 				888DBF741F4C29B800300EE9 /* libc++.tbd in Frameworks */,
-				888DBF6E1F4C21F000300EE9 /* Accelerate.framework in Frameworks */,
 				884370BB1F4C11F4001200A7 /* VideoToolbox.framework in Frameworks */,
-				07E13E2C1F4C708900F35CFF /* IJKMediaFramework.framework in Frameworks */,
+				88AAC06A1F4D87C100F85F6F /* IJKMediaFramework.framework in Frameworks */,
 				884370B91F4C11EE001200A7 /* UIKit.framework in Frameworks */,
 				884370B71F4C11E9001200A7 /* QuartzCore.framework in Frameworks */,
 				884370B51F4C11E4001200A7 /* OpenGLES.framework in Frameworks */,
@@ -135,7 +138,7 @@
 		884370621F4C1138001200A7 = {
 			isa = PBXGroup;
 			children = (
-				07E13E2B1F4C708900F35CFF /* IJKMediaFramework.framework */,
+				88AAC0691F4D87C100F85F6F /* IJKMediaFramework.framework */,
 				8843706D1F4C1138001200A7 /* KSPlayer */,
 				884370871F4C113A001200A7 /* KSPlayerTests */,
 				884370921F4C113A001200A7 /* KSPlayerUITests */,
@@ -157,6 +160,7 @@
 		8843706D1F4C1138001200A7 /* KSPlayer */ = {
 			isa = PBXGroup;
 			children = (
+				888DBF9C1F4D173800300EE9 /* KSPlayer */,
 				884370711F4C1139001200A7 /* AppDelegate.h */,
 				884370721F4C1139001200A7 /* AppDelegate.m */,
 				884370741F4C1139001200A7 /* ViewController.h */,
@@ -166,10 +170,6 @@
 				8843707C1F4C113A001200A7 /* LaunchScreen.storyboard */,
 				8843707F1F4C113A001200A7 /* Info.plist */,
 				8843706E1F4C1139001200A7 /* Supporting Files */,
-				888DBF761F4C309600300EE9 /* KSPlayer.h */,
-				888DBF771F4C309600300EE9 /* KSPlayer.m */,
-				888DBF791F4C329C00300EE9 /* KSPlayerView.h */,
-				888DBF7A1F4C329C00300EE9 /* KSPlayerView.m */,
 			);
 			path = KSPlayer;
 			sourceTree = "<group>";
@@ -177,6 +177,7 @@
 		8843706E1F4C1139001200A7 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				888DBFA51F4D197200300EE9 /* login_video.mp4 */,
 				8843706F1F4C1139001200A7 /* main.m */,
 			);
 			name = "Supporting Files";
@@ -203,6 +204,7 @@
 		884370A11F4C1172001200A7 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				888DBFBD1F4D290900300EE9 /* libstdc++.6.tbd */,
 				888DBF731F4C29B800300EE9 /* libc++.tbd */,
 				888DBF6D1F4C21F000300EE9 /* Accelerate.framework */,
 				884370BA1F4C11F4001200A7 /* VideoToolbox.framework */,
@@ -220,6 +222,17 @@
 				884370A21F4C1172001200A7 /* AudioToolbox.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		888DBF9C1F4D173800300EE9 /* KSPlayer */ = {
+			isa = PBXGroup;
+			children = (
+				888DBF9D1F4D173800300EE9 /* KSPlayer.h */,
+				888DBF9E1F4D173800300EE9 /* KSPlayer.m */,
+				888DBF9F1F4D173800300EE9 /* KSPlayerView.h */,
+				888DBFA01F4D173800300EE9 /* KSPlayerView.m */,
+			);
+			path = KSPlayer;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -330,6 +343,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8843707E1F4C113A001200A7 /* LaunchScreen.storyboard in Resources */,
+				888DBFA61F4D197200300EE9 /* login_video.mp4 in Resources */,
 				8843707B1F4C113A001200A7 /* Assets.xcassets in Resources */,
 				884370791F4C113A001200A7 /* Main.storyboard in Resources */,
 			);
@@ -356,9 +370,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				888DBF781F4C309600300EE9 /* KSPlayer.m in Sources */,
+				888DBFA11F4D173800300EE9 /* KSPlayer.m in Sources */,
 				884370761F4C1139001200A7 /* ViewController.m in Sources */,
-				888DBF7B1F4C329C00300EE9 /* KSPlayerView.m in Sources */,
+				888DBFA21F4D173800300EE9 /* KSPlayerView.m in Sources */,
 				884370731F4C1139001200A7 /* AppDelegate.m in Sources */,
 				884370701F4C1139001200A7 /* main.m in Sources */,
 			);

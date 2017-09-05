@@ -8,12 +8,13 @@
 
 #import "ViewController.h"
 #import <IJKMediaFramework/IJKMediaPlayer.h>
-#import <AVFoundation/AVFoundation.h>
 #import "KSPlayer.h"
 
 @interface ViewController ()
 
 @property (nonatomic,strong) KSPlayer *player;
+    
+    @property (nonatomic,assign) NSInteger index;
 
 @end
 
@@ -31,17 +32,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view, typically from a nib.
+    
+    NSString *URLString = @"http://fs.mcoolshot.kugou.com/201708231750/a6005e3475a70f161e3a52325d278fa2/G113/M0B/02/17/UZQEAFmanEqAS77DADkAZjAZDF4208.mp4";
+    
+    NSURL *url = [NSURL URLWithString:URLString];
+    self.player.URL = url;
     [self.view addSubview:self.player.playerView];
     
-    self.player.playerView.frame = self.view.bounds;
-    
-    NSString *URLString = @"http://fs.mcoolshot.kugou.com/201708221549/30818fb6c979358e61af76c08ca3bf68/G107/M0B/10/17/C4cBAFma1UuAODHRACT_b2ljILU599.mp4";
-    
-    self.player.URL = [NSURL URLWithString:URLString];
-    
-    self.player.playProgressBlock = ^(KSPlayer *player, float time, float duration, float progress) {
-        
-    };
+    self.player.playerView.frame = CGRectMake(0, 0, self.view.bounds.size.width, 250);
     
     /*
     AVPlayer *avplayer = [AVPlayer playerWithURL:[NSURL URLWithString:URLString]];
@@ -57,8 +55,16 @@
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
 {
+    
+    NSString *URLString = @"";
+    if (_index == 0) {
+        URLString = @"http://fs.mcoolshot.kugou.com/201708231750/e520eca7ab9d63388eeaa280b9809914/G111/M05/0A/07/rw0DAFmazJWAOIhhACU00DovI-s069.mp4";
+        _index = 1;
+    }else {
         
-    NSString *URLString = @"http://fs.mcoolshot.kugou.com/201708221549/30818fb6c979358e61af76c08ca3bf68/G107/M0B/10/17/C4cBAFma1UuAODHRACT_b2ljILU599.mp4";
+        URLString = @"http://fs.mcoolshot.kugou.com/201708231750/a6005e3475a70f161e3a52325d278fa2/G113/M0B/02/17/UZQEAFmanEqAS77DADkAZjAZDF4208.mp4";
+        _index = 0;
+    }
     
     self.player.URL = [NSURL URLWithString:URLString];
     
