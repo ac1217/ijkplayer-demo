@@ -29,14 +29,26 @@ typedef enum : NSUInteger {
 @property (nonatomic,assign, readonly) KSPlayerPlayStatus playStatus;
 @property (nonatomic,assign, readonly) KSPlayerPlayStatus loadStatus;
 
-@property (nonatomic,strong, readonly) KSPlayerView *playerView;
+@property (nonatomic,strong, readonly) KSPlayerView *view;
 
 @property (nonatomic,strong) NSURL *URL;
 
+@property (nonatomic,assign, readonly) NSTimeInterval duration;
 
 @property (nonatomic,assign) BOOL autoPlay;
+@property (nonatomic,assign) BOOL playInBackground;
 @property (nonatomic,assign) NSInteger loopCount;
 
+<<<<<<< HEAD:KSPlayer/KSPlayer/KSPlayer.h
+@property (nonatomic,assign) float rate;
+    
+//@property (nonatomic,assign) NSTimeInterval startTime;
+//@property (nonatomic,assign) NSTimeInterval playDuration;
+@property (nonatomic,assign) NSTimeInterval startPlayTime;
+@property (nonatomic,assign) NSTimeInterval endPlayTime;
+    
+=======
+>>>>>>> parent of accc2a2... no message:KSPlayer/KSPlayer/KSPlayer.h
 - (void)seekToTime:(NSTimeInterval)time;
 
 // 播放进度回调
@@ -46,4 +58,19 @@ typedef enum : NSUInteger {
 
 @property (nonatomic,copy) void(^loadStatusBlock)(KSPlayer *player,KSPlayerLoadStatus status);
 
+<<<<<<< HEAD:KSPlayer/KSPlayer/KSPlayer.h
+@property (nonatomic,copy) void(^preparedToPlayBlock)(KSPlayer *player);
+
+@property (nonatomic,copy) void(^playFinishBlock)(KSPlayer *player);
+    
+@property (nonatomic,copy) void(^readyForDisplayBlock)(KSPlayer *player);
+
+@property (nonatomic,copy) void(^thumbnailImageRenderBlock)(KSPlayer *player, UIImage *image, NSTimeInterval time);
+
+- (void)pause;
+- (void)stop;
+- (void)play;
+
+=======
+>>>>>>> parent of accc2a2... no message:KSPlayer/KSPlayer/KSPlayer.h
 @end
