@@ -10,15 +10,19 @@
 
 #import <IJKMediaFramework/IJKMediaPlayer.h>
 
+//#import <MediaPlayer/MediaPlayer.h>
+
 @interface KSPlayer (){
     
-    UIView *_playerView;
+    KSPlayerView *_view;
     
     NSInteger _currentLoopCount;
     
     
+    
 }
-@property (nonatomic,strong) IJKFFMoviePlayerController *player;
+@property (nonatomic,strong) IJKFFMoviePlayerController *player; 
+//@property (nonatomic,strong) MPMoviePlayerController *player;
 
 
 @property (nonatomic,strong) dispatch_source_t playProgressTimer;
@@ -31,28 +35,32 @@
 + (void)initialize
 {
     
+    [IJKFFMoviePlayerController setLogReport:NO];
+    [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_DEFAULT];
 #ifdef DEBUG
+    
     [IJKFFMoviePlayerController setLogReport:YES];
     [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_DEBUG];
 #else
     [IJKFFMoviePlayerController setLogReport:NO];
-    [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_INFO];
+    [IJKFFMoviePlayerController setLogLevel:k_IJK_LOG_DEFAULT];
 #endif
     
 }
 
 - (void)dealloc
 {
-    [self freePlayer];
+    [self destoryPlayer];
 }
 
-- (void)freePlayer
+- (void)destoryPlayer
 {
     
     [self removePlayProgressTimer];
     [self removePlayerObserver];
+    [self.player stop];
     [self.player shutdown];
-    self.playerView.playerLayer = nil;
+    self.view.playerLayer = nil;
     self.player = nil;
 }
 
@@ -61,27 +69,45 @@
     
     IJKFFOptions *options = [IJKFFOptions optionsByDefault];
     [options setPlayerOptionIntValue:5 forKey:@"framedrop"];
-//    [options setPlayerOptionIntValue:1 forKey:@"videotoolbox"];
-    //解码参数，画面更清晰
+    [options setPlayerOptionIntValue:0 forKey:@"videotoolbox"];
+//    解码参数，画面更清晰
     [options setCodecOptionIntValue:IJK_AVDISCARD_DEFAULT forKey:@"skip_loop_filter"];
-    
+    [options setCodecOptionIntValue:IJK_AVDISCARD_DEFAULT forKey:@"skip_frame"];
+    [options setPlayerOptionIntValue:0 forKey:@"max_cached_duration"];
+    [options setPlayerOptionIntValue:0 forKey:@"infbuf"];
+    [options setPlayerOptionIntValue:1 forKey:@"packet-buffering"];
     
     IJKFFMoviePlayerController *player = [[IJKFFMoviePlayerController alloc] initWithContentURL:self.URL withOptions:options];
     player.shouldAutoplay = self.autoPlay;
     player.scalingMode = IJKMPMovieScalingModeAspectFit;
+    [player setPauseInBackground:!self.playInBackground];
     [player prepareToPlay];
-    self.playerView.playerLayer = player.view;
+    player.view.backgroundColor = [UIColor clearColor];
+    self.view.playerLayer = player.view;
     self.player = player;
+    
+    /*
+    MPMoviePlayerController *player = [[MPMoviePlayerController alloc] initWithContentURL:self.URL];
+    player.shouldAutoplay = self.autoPlay;
+//    player.shouldAutoplay = NO;
+    player.controlStyle = MPMovieControlStyleNone;
+    player.repeatMode = MPMovieRepeatModeNone;
+    [player prepareToPlay];
+    player.view.userInteractionEnabled = NO;
+    
+    [player requestThumbnailImagesAtTimes:@[@(self.startPlayTime),@1.0] timeOption:MPMovieTimeOptionExact];
+//    player.view.backgroundColor = [UIColor clearColor];
+//    player.backgroundView.backgroundColor = [UIColor clearColor];*/
     [self addPlayerObserver];
-    [self addPlayProgressTimer];
+//    [self addPlayProgressTimer];
 }
 
-- (UIView *)playerView
+- (KSPlayerView *)view
 {
-    if (!_playerView) {
-        _playerView = [KSPlayerView new];
+    if (!_view) {
+        _view = [KSPlayerView new];
     }
-    return _playerView;
+    return _view;
 }
 
 - (instancetype)init
@@ -97,7 +123,7 @@
 {
     _URL = URL;
     
-    [self freePlayer];
+    [self destoryPlayer];
     
     if (URL) {
         
@@ -106,12 +132,94 @@
     
 }
 
-- (void)seekToTime:(NSTimeInterval)time
+- (void)setRate:(float)rate
+{
+    self.player.playbackRate = rate;
+//    self.player.currentPlaybackRate = rate;
+}
+
+- (float)rate
+{
+    return self.player.playbackRate;
+//    return self.player.currentPlaybackRate;
+}
+
+- (NSTimeInterval)duration
+{
+    return self.player.duration;
+}
+
+- (void)setVolume:(float)volume
+{
+    self.player.playbackVolume = volume;
+}
+
+- (float)volume
+{
+    return self.player.playbackVolume;
+//    return 0;
+}
+
+- (void)play
+{
+    [self.player play];
+}
+
+- (void)pause
+{
+    [self.player pause];
+}
+
+- (void)stop
+{
+    [self.player stop];
+}
+
+- (KSPlayerPlayStatus)playStatus
 {
     
     
+    switch (self.player.playbackState) {
+            case IJKMPMoviePlaybackStatePaused:
+            return KSPlayerPlayStatusPaused;
+            break;
+            case IJKMPMoviePlaybackStateStopped:
+            return KSPlayerPlayStatusStoped;
+            break;
+            case IJKMPMoviePlaybackStatePlaying:
+            return KSPlayerPlayStatusPlaying;
+            break;
+            
+        default:
+            return KSPlayerPlayStatusUnknow;
+            break;
+    }
+    
+//    switch (self.player.playbackState) {
+//        case MPMoviePlaybackStatePaused:
+//        return KSPlayerPlayStatusPaused;
+//        break;
+//        case MPMoviePlaybackStateStopped:
+//        return KSPlayerPlayStatusStoped;
+//        break;
+//        case MPMoviePlaybackStatePlaying:
+//        return KSPlayerPlayStatusPlaying;
+//        break;
+//        
+//        default:
+//        return KSPlayerPlayStatusUnknow;
+//        break;
+//    }
+}
+
+- (void)seekToTime:(NSTimeInterval)time
+{
     
     self.player.currentPlaybackTime = time;
+    
+    if (self.autoPlay) {
+        [self.player play];
+    }
     
     
 }
@@ -128,22 +236,32 @@
 
 - (void)addPlayProgressTimer
 {
+    [self removePlayProgressTimer];
+    
     __weak typeof(self) weakSelf = self;
     
     dispatch_source_t timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER, 0, 0, dispatch_get_main_queue());
     
     //开始时间
-    dispatch_time_t start = dispatch_time(DISPATCH_TIME_NOW, 0.5 * NSEC_PER_SEC);
+    dispatch_time_t start = dispatch_time(DISPATCH_TIME_NOW, 0.1 * NSEC_PER_SEC);
     
     //间隔时间
-    uint64_t interval = 0.5 * NSEC_PER_SEC;
+    uint64_t interval = 0.1 * NSEC_PER_SEC;
     
     dispatch_source_set_timer(timer, start, interval, 0);
     dispatch_source_set_event_handler(timer, ^{
         
+        
         CGFloat progress = weakSelf.player.currentPlaybackTime / weakSelf.player.duration;
         
         !weakSelf.playProgressBlock ? : weakSelf.playProgressBlock(weakSelf, weakSelf.player.currentPlaybackTime, weakSelf.player.duration, progress);
+        
+        if (weakSelf.startPlayTime && weakSelf.endPlayTime && weakSelf.player.currentPlaybackTime >= weakSelf.endPlayTime) {
+            
+            [weakSelf pause];
+            [weakSelf playerPlaybackDidFinishNotification:nil];
+            
+        }
         
         
     });
@@ -171,65 +289,130 @@
                                              selector:@selector(playerLoadStateDidChangeNotification:)
                                                  name:IJKMPMoviePlayerLoadStateDidChangeNotification
                                                object:self.player];
+    
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(playbackIsPreparedToPlayDidChangeNotification:)
+                                                 name:IJKMPMediaPlaybackIsPreparedToPlayDidChangeNotification
+                                               object:self.player];
+    
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(playerReadyForDisplayDidChangeNotification:)
+                                                 name:IJKMPMoviePlayerFirstVideoFrameRenderedNotification
+                                               object:self.player];
+    
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(playerReadyForDisplayDidChangeNotification:)
+//                                                 name:IJKMPMoviePlayerReadyForDisplayDidChangeNotification
+//                                               object:self.player];
+    
+//    [[NSNotificationCenter defaultCenter] addObserver:self
+//                                             selector:@selector(playerThumbnailImageRequestDidFinishNotification:)
+//                                                 name:IJKMPMoviePlayerThumbnailImageRequestDidFinishNotification
+//                                               object:self.player];
+    
+    
 }
 
 - (void)removePlayerObserver
 {
+//    [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerThumbnailImageRequestDidFinishNotification object:self.player];
+//    [[NSNotificationCenter defaultCenter] removeObserver:self name:MPMoviePlayerReadyForDisplayDidChangeNotification object:self.player];
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self name:IJKMPMoviePlayerPlaybackDidFinishNotification object:self.player];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:IJKMPMoviePlayerPlaybackStateDidChangeNotification object:self.player];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:IJKMPMoviePlayerLoadStateDidChangeNotification object:self.player];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:IJKMPMediaPlaybackIsPreparedToPlayDidChangeNotification object:self.player];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:IJKMPMoviePlayerFirstVideoFrameRenderedNotification object:self.player];
     
     
 }
 
 
+- (void)playerThumbnailImageRequestDidFinishNotification:(NSNotification *)note
+{
+    
+    NSTimeInterval time = [note.userInfo[MPMoviePlayerThumbnailTimeKey] doubleValue];
+    UIImage *image = note.userInfo[MPMoviePlayerThumbnailImageKey];
+    
+    !self.thumbnailImageRenderBlock ? : self.thumbnailImageRenderBlock(self, image, time);
+    
+}
+
+- (void)playerReadyForDisplayDidChangeNotification:(NSNotification *)note
+{
+//    if (self.player.readyForDisplay) {
+    
+        !self.readyForDisplayBlock ? : self.readyForDisplayBlock(self);
+//    }
+}
+
+- (void)playbackIsPreparedToPlayDidChangeNotification:(NSNotification*)notification
+{
+    
+//    self.player.initialPlaybackTime = self.startPlayTime;
+//    self.player.endPlaybackTime = self.endPlayTime;
+    [self seekToTime:self.startPlayTime];
+    
+    !self.preparedToPlayBlock ? : self.preparedToPlayBlock(self);
+    
+}
+
+    
 - (void)playerLoadStateDidChangeNotification:(NSNotification*)notification
 {
     IJKMPMovieLoadState loadState = self.player.loadState;
-    
     if ((loadState & IJKMPMovieLoadStatePlaythroughOK) != 0) {
-        
         !self.loadStatusBlock ? : self.loadStatusBlock(self, KSPlayerLoadStatusPlaythroughOK);
-        
     } else if ((loadState & IJKMPMovieLoadStateStalled) != 0) {
-        
         !self.loadStatusBlock ? : self.loadStatusBlock(self, KSPlayerLoadStatusStalled);
+    } else if((loadState & IJKMPMovieLoadStatePlayable) != 0){
         
-    } else {
-        
+        !self.loadStatusBlock ? : self.loadStatusBlock(self, KSPlayerLoadStatusPlayable);
     }
+    
 
 }
 
 - (void)playerPlaybackStateDidChangeNotification:(NSNotification*)notification
 {
+    
     switch (self.player.playbackState)
     {
         case IJKMPMoviePlaybackStateStopped: {
             
             !self.playStatusBlock ? : self.playStatusBlock(self, KSPlayerPlayStatusStoped);
+            [self removePlayProgressTimer];
             
             break;
         }
         case IJKMPMoviePlaybackStatePlaying: {
             !self.playStatusBlock ? : self.playStatusBlock(self, KSPlayerPlayStatusPlaying);
+            [self addPlayProgressTimer];
             break;
         }
+            
         case IJKMPMoviePlaybackStatePaused: {
             !self.playStatusBlock ? : self.playStatusBlock(self, KSPlayerPlayStatusPaused);
+            [self removePlayProgressTimer];
             break;
         }
         case IJKMPMoviePlaybackStateInterrupted: {
+            [self removePlayProgressTimer];
             break;
         }
         case IJKMPMoviePlaybackStateSeekingForward:
         case IJKMPMoviePlaybackStateSeekingBackward: {
             
+            [self removePlayProgressTimer];
             break;
         }
         default: {
             !self.playStatusBlock ? : self.playStatusBlock(self, KSPlayerPlayStatusUnknow);
             
+            [self removePlayProgressTimer];
             break;
         }
     }
@@ -237,6 +420,9 @@
 
 - (void)playerPlaybackDidFinishNotification:(NSNotification*)notification
 {
+    
+    
+    !self.playProgressBlock ? : self.playProgressBlock(self, self.player.currentPlaybackTime, self.player.duration, 1);
     
     _currentLoopCount++;
     
@@ -246,11 +432,16 @@
         
         [self.player stop];
         
+        !self.playFinishBlock ? : self.playFinishBlock(self);
+        
     }else {
         
-        [self.player play];
+        [self seekToTime:self.startPlayTime];
+//        [self.player play];
         
     }
+    
+//    !self.playProgressBlock ? : self.playProgressBlock(self, self.player.currentPlaybackTime, self.player.duration, 1);
     
 }
 
